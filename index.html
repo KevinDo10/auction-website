@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Auction Website for buying and selling items through bidding.">
+  <meta name="author" content="Your Name">
+  <title>Auction Website</title>
+  <!-- Link to CSS styles -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+</head>
+<body>
+  <!-- Header Section -->
+  <header>
+    <nav class="navbar">
+      <div class="container">
+        <a href="index.html" class="logo">
+          <img src="assets/images/logo.png" alt="Auction Logo">
+        </a>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="/pages/login.html">Login</a></li>
+          <li><a href="/pages/register.html">Register</a></li>
+          <li><a href="./pages/profile.html">Profile</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <div class="hero">
+      <h1>Welcome to the Auction Website</h1>
+      <p>Buy and sell items through bidding. Join us today!</p>
+      <a href="pages/register.html" class="btn btn-primary">Get Started</a>
+    </div>
+
+    <!-- Featured Listings Section -->
+    <section class="featured-listings">
+      <div class="container">
+        <h2>Featured Listings</h2>
+        <div id="listings" class="listings-grid">
+          <!-- Listings will be dynamically loaded here -->
+          <div class="loading">Loading featured listings...</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer Section -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 Auction Website. All rights reserved.</p>
+      <ul class="footer-links">
+        <li><a href="pages/about.html">About</a></li>
+        <li><a href="pages/terms.html">Terms of Service</a></li>
+        <li><a href="pages/privacy.html">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="js/app.js"></script>
+  <script>
+    // Fetch featured listings
+    document.addEventListener("DOMContentLoaded", async () => {
+      const listingsContainer = document.getElementById("listings");
+
+      try {
+        const response = await fetch("https://api.noroff.dev/auction/listings");
+        if (!response.ok) throw new Error("Failed to fetch listings");
+
+        const listings = await response.json();
+
+        // Display only 4 featured listings
+        listingsContainer.innerHTML = listings
+          .slice(0, 4)
+          .map(
+            (listing) => `
+              <div class="listing-card">
+                <img src="${listing.media[0] || "assets/images/default.jpg"}" alt="${listing.title}" class="listing-image">
+                <h3>${listing.title}</h3>
+                <p>${listing.description.slice(0, 100)}...</p>
+                <p><strong>Ends At:</strong> ${new Date(listing.endsAt).toLocaleString()}</p>
+                <a href="pages/listing.html?id=${listing.id}" class="btn btn-secondary">View Listing</a>
+              </div>
+            `
+          )
+          .join("");
+      } catch (error) {
+        listingsContainer.innerHTML = `<p class="error">Failed to load listings. Please try again later.</p>`;
+        console.error("Error fetching listings:", error);
+      }
+    });
+  </script>
+</body>
+</html>

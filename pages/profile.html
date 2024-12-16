@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="View and update your profile on the Auction Website.">
+  <title>Profile - Auction Website</title>
+  <!-- Link to CSS styles -->
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
+</head>
+<body>
+  <!-- Header Section -->
+  <header>
+    <nav class="navbar">
+      <div class="container">
+        <a href="../index.html" class="logo">
+          <img src="../assets/images/logo.png" alt="Auction Logo">
+        </a>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a id="logoutLink" href="#">Logout</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <div class="container">
+      <h1>Your Profile</h1>
+      <div id="profileDetails" class="profile-details">
+        <!-- Profile details will be dynamically loaded here -->
+        <div class="loading">Loading profile details...</div>
+      </div>
+
+      <!-- Update Avatar Section -->
+      <section id="updateAvatarSection" class="update-avatar">
+        <h2>Update Avatar</h2>
+        <form id="avatarForm" class="form">
+          <div class="form-group">
+            <label for="avatarInput">Upload New Avatar</label>
+            <input
+              type="file"
+              id="avatarInput"
+              name="avatar"
+              accept="image/*"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">Upload Avatar</button>
+          <p id="avatarStatusMessage" class="status-message"></p>
+        </form>
+      </section>
+
+      <!-- Credits Section -->
+      <section id="creditsSection" class="credits">
+        <h2>Your Total Credits</h2>
+        <p id="totalCredits">Loading credits...</p>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer Section -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 Auction Website. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="../js/profile.js"></script>
+  <script>
+    // Fetch and display user profile details
+    async function fetchProfileDetails() {
+      const profileDetailsContainer = document.getElementById("profileDetails");
+      const totalCreditsElement = document.getElementById("totalCredits");
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        window.location.href = "login.html"; // Redirect to login if not authenticated
+        return;
+      }
+
+      try {
+        const response = await fetch("https://api.noroff.dev/auction/auth/profile", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) throw new Error("Failed to fetch profile details");
+
+        const user = await response.json();
+
+        // Display profile details
+        profileDetailsContainer.innerHTML = `
+          <img src="${user.avatar || '../assets/images/default-avatar.png'}" alt="Avatar" class="profile-avatar">
+          <p><strong>Username:</strong> ${user.username}</p>
+          <p><strong>Email:</strong> ${user.email}</p>
+        `;
+
+        // Display total credits
+        totalCreditsElement.textContent = `${user.credits} Credits`;
+      } catch (error) {
+        profileDetailsContainer.innerHTML = `<p class="error">Failed to load profile details. Please try again later.</p>`;
+        totalCreditsElement.textContent = "N/A";
+        console.error(error);
+      }
+    }
+
+    // Handle avatar upload
+    async function uploadAvatar(event) {
+      event.preventDefault();
+      const avatarInput = document.getElementById("avatarInput").files[0];
+      const avatarStatusMessage = document.getElementById("avatarStatusMessage");
+
+      if (!avatarInput) {
+        avatarStatusMessage.textContent = "Please select a file.";
+        avatarStatusMessage.style.color = "red";
+        return;
+      }
+
+      avatarStatusMessage.textContent = "Uploading avatar...";
+      avatarStatusMessage.style.color = "black";
+
+      const formData = new FormData();
+      formData.append("avatar", avatarInput);
+
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch("https://api.noroff.dev/auction/auth/avatar", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        });
+
+        if (!response.ok) throw new Error("Failed to upload avatar");
+
+        avatarStatusMessage.textContent = "Avatar updated successfully!";
+        avatarStatusMessage.style.color = "green";
+        fetchProfileDetails(); // Refresh profile details to show the updated avatar
+      } catch (error) {
+        avatarStatusMessage.textContent = "Failed to upload avatar. Please try again.";
+        avatarStatusMessage.style.color = "red";
+        console.error(error);
+      }
+    }
+
+    // Handle logout
+    function logout() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      window.location.href = "../pages/login.html";
+    }
+
+    // Initialize the profile page
+    document.addEventListener("DOMContentLoaded", () => {
+      fetchProfileDetails();
+      document.getElementById("avatarForm").addEventListener("submit", uploadAvatar);
+      document.getElementById("logoutLink").addEventListener("click", (event) => {
+        event.preventDefault();
+        logout();
+      });
+    });
+  </script>
+</body>
+</html>

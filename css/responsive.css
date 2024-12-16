@@ -1,0 +1,261 @@
+/* ==========================
+   Responsive Styles for Small Devices (Mobile)
+   ========================== */
+   @media (max-width: 768px) {
+    /* General */
+    body {
+      font-size: 14px;
+    }
+  
+    .container {
+      width: 95%;
+    }
+  
+    /* Navigation */
+    .navbar ul {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+    }
+  
+    .navbar ul li {
+      margin: 0;
+    }
+  
+    /* Hero Section */
+    .hero {
+      padding: 30px 10px;
+      text-align: center;
+    }
+  
+    .hero h1 {
+      font-size: 1.8rem;
+    }
+  
+    .hero p {
+      font-size: 1rem;
+    }
+  
+    .hero .btn {
+      font-size: 0.9rem;
+      padding: 8px 12px;
+    }
+  
+    /* Listings Grid */
+    .listings-grid {
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+  
+    .listing-card {
+      padding: 10px;
+    }
+  
+    .listing-card img {
+      height: 120px;
+    }
+  
+    .listing-card h3 {
+      font-size: 1rem;
+    }
+  
+    /* Forms */
+    .form {
+      padding: 15px;
+    }
+  
+    .form-group label {
+      font-size: 0.9rem;
+    }
+  
+    .form-group input,
+    .form-group textarea {
+      font-size: 0.9rem;
+      padding: 8px;
+    }
+  
+    .btn {
+      font-size: 0.9rem;
+      padding: 8px 12px;
+    }
+  
+    /* Footer */
+    footer {
+      padding: 10px;
+    }
+  
+    footer p {
+      font-size: 0.9rem;
+    }
+  
+    .footer-links {
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+  }
+  
+  /* ==========================
+     Responsive Styles for Tablets
+     ========================== */
+  @media (max-width: 1024px) {
+    /* General */
+    body {
+      font-size: 15px;
+    }
+  
+    /* Navigation */
+    .navbar ul {
+      gap: 12px;
+    }
+  
+    /* Hero Section */
+    .hero {
+      padding: 40px 20px;
+    }
+  
+    .hero h1 {
+      font-size: 2rem;
+    }
+  
+    .hero p {
+      font-size: 1.1rem;
+    }
+  
+    /* Listings Grid */
+    .listings-grid {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+  
+    .listing-card {
+      padding: 12px;
+    }
+  
+    .listing-card img {
+      height: 140px;
+    }
+  
+    .listing-card h3 {
+      font-size: 1.1rem;
+    }
+  
+    /* Forms */
+    .form {
+      padding: 18px;
+    }
+  
+    .form-group label {
+      font-size: 0.95rem;
+    }
+  
+    .form-group input,
+    .form-group textarea {
+      font-size: 0.95rem;
+      padding: 10px;
+    }
+  
+    .btn {
+      font-size: 0.95rem;
+      padding: 10px 15px;
+    }
+  
+    /* Footer */
+    footer {
+      padding: 15px;
+    }
+  
+    footer p {
+      font-size: 0.95rem;
+    }
+  
+    .footer-links {
+      gap: 8px;
+    }
+  }
+  
+  /* ==========================
+     Responsive Styles for Large Devices (Desktops and Larger Screens)
+     ========================== */
+  @media (min-width: 1200px) {
+    /* General */
+    body {
+      font-size: 16px;
+    }
+  
+    .container {
+      max-width: 1200px;
+    }
+  
+    /* Navigation */
+    .navbar ul {
+      gap: 20px;
+    }
+  
+    /* Hero Section */
+    .hero {
+      padding: 50px 30px;
+      text-align: center;
+    }
+  
+    .hero h1 {
+      font-size: 2.5rem;
+    }
+  
+    .hero p {
+      font-size: 1.2rem;
+    }
+  
+    /* Listings Grid */
+    .listings-grid {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+    }
+  
+    .listing-card {
+      padding: 15px;
+    }
+  
+    .listing-card img {
+      height: 160px;
+    }
+  
+    .listing-card h3 {
+      font-size: 1.3rem;
+    }
+  
+    /* Forms */
+    .form {
+      padding: 20px;
+    }
+  
+    .form-group label {
+      font-size: 1rem;
+    }
+  
+    .form-group input,
+    .form-group textarea {
+      font-size: 1rem;
+      padding: 12px;
+    }
+  
+    .btn {
+      font-size: 1rem;
+      padding: 12px 18px;
+    }
+  
+    /* Footer */
+    footer {
+      padding: 20px;
+    }
+  
+    footer p {
+      font-size: 1rem;
+    }
+  
+    .footer-links {
+      gap: 10px;
+    }
+  }
+  
